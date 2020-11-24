@@ -1,9 +1,12 @@
 package br.com.cadastro.clientes.rest;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import br.com.cadastro.clientes.model.repository.ClienteRepository;
 
 @RestController
 @RequestMapping("/api/clientes")
+@CrossOrigin("http://localhost:4200")
 public class ClienteController {
 	
 	@Autowired
@@ -29,6 +33,11 @@ public class ClienteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente salvar(@RequestBody @Valid Cliente cliente) {
 		return repository.save(cliente);
+	}
+	
+	@GetMapping
+	public List<Cliente> obterTodos(){
+		return repository.findAll();
 	}
 	
 	@GetMapping("{id}")
