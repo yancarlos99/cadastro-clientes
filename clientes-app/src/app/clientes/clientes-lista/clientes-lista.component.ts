@@ -28,7 +28,7 @@ export class ClientesListaComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   novoCadastro(){
-    this.router.navigate(['/clientes-form']);
+    this.router.navigate(['/clientes/form']);
   }
 
   preparaDelecao(cliente: Cliente){

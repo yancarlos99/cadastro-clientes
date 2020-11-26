@@ -16,25 +16,23 @@ import br.com.cadastro.clientes.exception.ApiErrors;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
-	
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ApiErrors handlerValidationErrors( MethodArgumentNotValidException ex) {
-		BindingResult bindingResult = ex.getBindingResult();
-		List<String> messages = bindingResult.getAllErrors()
-		.stream()
-		.map( objectError -> objectError.getDefaultMessage())
-		.collect(Collectors.toList());
-		
-		return new ApiErrors(messages);
-	}
-	
-	@ExceptionHandler(ResponseStatusException.class)
-	public ResponseEntity handleResponseStatusException(ResponseStatusException ex) {
-		String mensagemErro = ex.getMessage();
-		HttpStatus codigoStatus = ex.getStatus();
-		ApiErrors apiErrors = new ApiErrors(mensagemErro);
-		return new ResponseEntity(mensagemErro, codigoStatus);
-	}
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors handleValidationErros(MethodArgumentNotValidException ex ){
+        BindingResult bindingResult = ex.getBindingResult();
+        List<String> messages = bindingResult.getAllErrors()
+                .stream()
+                .map(objectError -> objectError.getDefaultMessage())
+                .collect(Collectors.toList());
+        return new ApiErrors(messages);
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity handleResponseStatusException(ResponseStatusException ex){
+        String mensagemErro = ex.getReason();
+        HttpStatus codigoStatus = ex.getStatus();
+        ApiErrors apiErrors = new ApiErrors(mensagemErro);
+        return new ResponseEntity(apiErrors, codigoStatus);
+    }
 }

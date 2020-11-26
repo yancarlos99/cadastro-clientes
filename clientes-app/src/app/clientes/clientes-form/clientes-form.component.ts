@@ -24,11 +24,11 @@ export class ClientesFormComponent implements OnInit {
     this.cliente = new Cliente();
   }
 
-  ngOnInit(): void { 
-    let params: Observable<Params> = this.activatedRoute.params;
+  ngOnInit(): void {
+    const params: Observable<Params> = this.activatedRoute.params;
     params.subscribe(urlParams => {
       this.id = urlParams['id'];
-      if(this.id){
+      if (this.id){
         this.service.getClienteById(this.id)
         .subscribe(
           response => this.cliente = response,
@@ -40,14 +40,14 @@ export class ClientesFormComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   onSubmit(){
-    if(this.id){
+    if (this.id){
       this.service.atualizar(this.cliente)
       .subscribe(response => {
         this.success = true;
         this.errors = [];
       }, errorResponse => {
         this.errors = ['Erro ao atualizar o Cliente'];
-      })
+      });
     }else{
       this.service.salvar(this.cliente)
       .subscribe(response => {
@@ -64,7 +64,7 @@ export class ClientesFormComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   voltarParaListagem(){
-    this.router.navigate(['/clientes-lista']);
+    this.router.navigate(['/clientes/lista']);
   }
 
 }
